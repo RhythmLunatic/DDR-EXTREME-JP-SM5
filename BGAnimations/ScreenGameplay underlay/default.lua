@@ -66,9 +66,10 @@ t[#t+1] = Def.ActorFrame{
 };
 
 --It's either CS or AC that displays bars on the side of the bg videos. I have to check. -Inori
-t[#t+1] = LoadActor("frame")..{
+--WE ARE NOT DOING THIS -ARC
+--[[t[#t+1] = LoadActor("frame")..{
 	InitCommand=cmd(Center);
-};
+};]]
 
 t[#t+1] = Def.Quad{
 -- Extra lifemeter under, shit breaks because lol reverse.

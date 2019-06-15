@@ -3,29 +3,36 @@ local t = LoadFallbackB();
 t[#t+1] = StandardDecorationFromFileOptional("StyleIcon","StyleIcon");
 t[#t+1] = StandardDecorationFromFile("StageDisplay","StageDisplay");
 
-t[#t+1] = Def.ActorFrame{
-  Def.RollingNumbers{
-    Font="ScreenEvaluation Combo",
-    InitCommand=cmd(visible,GAMESTATE:IsHumanPlayer(PLAYER_1);x,SCREEN_CENTER_X-249;y,SCREEN_CENTER_Y+104;diffuse,color("#FFFF00");playcommand,"Set";);
-    OnCommand=cmd(draworder,90;zoom,1.3;horizalign,left;diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
-    OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
-    SetCommand=function(self)
-      self:Load("RollingNumbersMaxCombo")
-      if GAMESTATE:GetSmallestNumStagesLeftForAnyHumanPlayer() <= 1 then
-        self:targetnumber(STATSMAN:GetFinalEvalStageStats():GetPlayerStageStats(PLAYER_1):MaxCombo());
-      else
-        self:targetnumber(STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_1):MaxCombo());
-      end;
-    end;
-  };
-};
+--Panes.
+t[#t+1] = LoadActor("panes",PLAYER_1, PLAYER_1);
 
 t[#t+1] = Def.ActorFrame{
-  LoadActor(THEME:GetPathG("","ScreenEvaluation ComboLabel"))..{
-    InitCommamd=cmd(visible,GAMESTATE:IsHumanPlayer(PLAYER_1));
-    OnCommand=cmd(x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+104;draworder,90;diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
-    OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
-  };
+  
+  	LoadFont("_20px fonts")..{
+  		Name="StatsText";
+		Text="MORE STATS";
+		InitCommand=cmd(xy,SCREEN_CENTER_X-170,SCREEN_BOTTOM-75;zoom,.8);
+		--InitCommamd=cmd(x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+104;diffuse,Color("White");draworder,100;visible,true;zoom,5);
+	};
+	Def.Sprite{
+		--Bet you didn't know I could do this
+		Texture=THEME:GetPathF("_game chars","16px 4x1.png");
+		InitCommand=cmd(zoom,.8;y,SCREEN_BOTTOM-69;animate,false;setstate,1;glowshift;effectcolor1,1,1,1,0.2;effectcolor2,0,0,0,0;effectperiod,0.198;);
+		OnCommand=function(self)
+			local st = self:GetParent():GetChild("StatsText")
+			self:x(st:GetX() - st:GetWidth()/2);
+			self:horizalign(left);
+		end;
+	};
+	Def.Sprite{
+		Texture=THEME:GetPathF("_game chars","16px 4x1.png");
+		InitCommand=cmd(zoom,.8;y,SCREEN_BOTTOM-69;animate,false;setstate,2;glowshift;effectcolor1,1,1,1,0.2;effectcolor2,0,0,0,0;effectperiod,0.198;);
+		OnCommand=function(self)
+			local st = self:GetParent():GetChild("StatsText")
+			self:x(st:GetX() + st:GetWidth()/2);
+			self:horizalign(right);
+		end;
+	};
 };
 
 -- difficulty display

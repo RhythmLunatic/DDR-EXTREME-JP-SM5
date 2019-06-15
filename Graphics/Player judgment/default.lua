@@ -21,6 +21,8 @@ local ProtimingCmds = {
 };
 --]]
 
+local BiasCmd = THEME:GetMetric("Judgment", "JudgmentBiasCommand");
+
 local TNSFrames = {
 	TapNoteScore_W1 = 0;
 	TapNoteScore_W2 = 1;
@@ -29,6 +31,18 @@ local TNSFrames = {
 	TapNoteScore_W5 = 4;
 	TapNoteScore_Miss = 5;
 };
+
+
+local function ShowProtiming()
+	if stage == "ScreenGameplay stage Demo" then
+		return false
+	else
+		return GetUserPrefB("UserPrefProtiming" .. ToEnumShortString(player));
+	end
+end;
+local bShowProTiming = (ActiveModifiers[pname(player)]["DetailedPrecision"] == "ProTiming");
+local showBias = (ActiveModifiers[pname(player)]["DetailedPrecision"] == "EarlyLate");
+
 local t = Def.ActorFrame {
 	LoadActor("Judgment") .. {
 		Name="Judgment";
@@ -45,6 +59,12 @@ local t = Def.ActorFrame {
 		ResetCommand=cmd(finishtweening;stopeffect;visible,false);
 	};
 	--]]
+	LoadActor("Deviation 1x2") .. {
+		Name="Bias";
+		InitCommand=cmd(pause;visible,false;xy,35,25;zoom,.75);
+		OnCommand=THEME:GetMetric("Judgment","JudgmentBiasOnCommand");
+		ResetCommand=cmd(finishtweening;stopeffect;visible,false);
+	};
 
 	InitCommand = function(self)
 		c = self:GetChildren();
@@ -77,6 +97,19 @@ local t = Def.ActorFrame {
 		c.ProtimingDisplay:settext( math.floor(math.abs(param.TapNoteOffset * 1000)) );
 		ProtimingCmds[param.TapNoteScore](c.ProtimingDisplay);
 		--]]
+		
+		if showBias then
+			---XXX: don't hardcode this
+			if param.TapNoteScore ~= 'TapNoteScore_W1' and
+				param.TapNoteScore ~= 'TapNoteScore_Miss' then
+				local late = iTapNoteOffset and (iTapNoteOffset > 0);
+				c.Bias:visible(true);
+				c.Bias:setstate( late and 1 or 0 );
+				BiasCmd(c.Bias);
+			else
+				c.Bias:visible(false);
+			end
+		end
 	end;
 };
 

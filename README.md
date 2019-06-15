@@ -1,14 +1,8 @@
-**Table of Contents**
- * [DDR-EXTREME-JP-SM5](#ddr-extreme-jp-sm5)
- * [Graphics:](#graphics)
- * [Coding:](#coding)
- * [What Needs Work:](#what-needs-work)
- * [Changelog:](#changelog)
- * [Copyright](#copyright)
 
+# DDR Extreme Plus Ultra
+I forced Simply Love shit into DDR Extreme
 
-# DDR-EXTREME-JP-SM5
-SM5 port of TakuyaMAXX and beware's DDR EXTREME 3.9 Theme
+Original Extreme is SM5 port of TakuyaMAXX and beware's DDR EXTREME 3.9 Theme by Inorizushi	
 
 Graphics:
 ============
@@ -18,22 +12,7 @@ Coding:
 ============
  - SM3.9: TakuyaMAXX, beware
  - SM5: Inorizushi, reiaya, FlameyBoy
-
-What Needs Work
-============
-- Eventually move all metrics to lua (keep compatability in the future)
-- ScreenSelectDifficulty(SSM sucks, I need to make this a custom screen.)
-- ScreenPlayerOptions(Add Mod Icons and have them refresh)
-- ScreenEvaluation(Only Regular Stage is coded. Needs everything else; Move Judgement Lines to lua)
-- ScreenGameplay(Mod Icons, fix reverse/lifeframes)
-
-CHANGELOG
-============
-##August 29th, 2016
-- Almost done with basic necessities (for event mode)
-
-##September 9th, 2015
-- We are now live!
+ - Plus Ultra by yours truly.
 
 Copyright
 ============

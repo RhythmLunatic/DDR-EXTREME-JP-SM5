@@ -193,3 +193,41 @@ end
 -- GetCharAnimPath(sPath)
 -- Easier access to Characters folder (taken from ScreenHowToPlay.cpp)
 function GetCharAnimPath(sPath) return "/Characters/"..sPath end
+
+
+
+local gradeNames = {
+    "AAA",
+    "AA",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "INVALID!"
+};
+
+function getGradeLetter(grade)
+  --[[if type(grade) ~= "number" then
+	SCREENMAN:SystemMessage("Error: getGradeLetter is for NUMBERS, you idiot. You gave: "..grade);
+	return "AAA";
+  end;]]
+	assert(grade, "Grade was nil!");
+	if grade < #gradeNames then
+		--Because lua arrays start at 1...
+		--You can't preform arithmatic on an enum for some odd reason, so it has to be turned into a number.
+		--grade = grade + 1;
+		local gradeLetter = gradeNames[Grade:Reverse()[grade+1]];
+		--[[if grade == nil then
+			SCREENMAN:SystemMessage("Grade was nil!!");
+			return "F";
+		end;]]
+		return gradeLetter;
+	else
+		return "F";
+	end;
+end;
+
+function gradeToNumber(grade)
+	return Grade:Reverse()[grade]
+end;
