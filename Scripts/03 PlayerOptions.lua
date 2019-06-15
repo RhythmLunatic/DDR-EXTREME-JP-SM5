@@ -340,7 +340,7 @@ function OptionRowDetailedPrecision()
 	return t;
 end;
 
-function OptionRowJudgmentGraphic()
+--[[function OptionRowJudgmentGraphic()
 	--The true name of the graphic is stored in ActiveModifiers to make it easier to load.
 	local judgementNames = {"Season 1", "Season 2", "Zona", "Simply Love", "Mikado", "Ace", "None"}
 	local t = {
@@ -381,7 +381,7 @@ function OptionRowJudgmentGraphic()
 	};
 	setmetatable(t, t)
 	return t
-end
+end]]
 
 --By Alisson, I don't think this function is used though
 function SpeedMods()

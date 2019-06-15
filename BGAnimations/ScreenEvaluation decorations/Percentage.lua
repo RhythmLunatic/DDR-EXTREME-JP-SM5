@@ -22,7 +22,7 @@ return Def.ActorFrame{
 		end
 	},
 
-	LoadFont("_wendy white")..{
+	LoadFont("Common Normal")..{
 		Text=percent,
 		Name="Percent",
 		InitCommand=cmd(vertalign, middle; horizalign, right; zoom,0.25 ),

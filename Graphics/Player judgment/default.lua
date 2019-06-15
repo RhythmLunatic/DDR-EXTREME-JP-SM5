@@ -37,7 +37,8 @@ local function ShowProtiming()
 	if stage == "ScreenGameplay stage Demo" then
 		return false
 	else
-		return GetUserPrefB("UserPrefProtiming" .. ToEnumShortString(player));
+		return false
+		--return GetUserPrefB("UserPrefProtiming" .. ToEnumShortString(player));
 	end
 end;
 local bShowProTiming = (ActiveModifiers[pname(player)]["DetailedPrecision"] == "ProTiming");
