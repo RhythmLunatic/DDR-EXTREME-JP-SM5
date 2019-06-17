@@ -14,6 +14,10 @@ local function split( delimiter, text )
 	return list
 end
 
+local function getOppositePlayer(pn)
+	return (pn == "PlayerNumber_P1") and "PlayerNumber_P2" or "PlayerNumber_P1"
+end;
+
 --I hate metrics why am I even doing this
 local ChoiceNames = split(",",THEME:GetMetric("ScreenSelectPlayModeCustom","ChoiceNames"));
 local numChoices = #ChoiceNames;
@@ -83,7 +87,7 @@ chr = Def.ActorFrame{
 			SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToPrevScreen");
 		end;
 		
-		self:GetChild("Cursor"):x(SCREEN_CENTER_X-612/2+153*(selection-1));
+		self:GetChild("Cursor"):x(SCREEN_CENTER_X-612/2+153.5*(selection-1));
 		--[[if selectedHazard then
 			self:GetChild("Title"):settext("Hazard"):diffusebottomedge(Color("Red"));
 			self:GetChild("Description"):settext(THEME:GetString("ScreenSelectPlayMode","Hazard"));
@@ -100,19 +104,60 @@ chr = Def.ActorFrame{
 	
 	LoadActor("bar")..{
 		InitCommand=cmd(xy,SCREEN_CENTER_X,SCREEN_BOTTOM-85);
+		OnCommand=cmd(cropleft,.5;cropright,.5;linear,1;cropleft,0;cropright,0);
+		--OffCommand=cmd(cropbottom,0;cropleft,0;cropright,0;sleep,0.726;linear,0.726;cropleft,0.493;cropright,0.493;linear,0.264;cropbottom,1);
+
 	};
 	--bottom is 1224 pixels / 2 -> 612
 	--612/4 = 153
-	LoadActor(THEME:GetPathG("_difficulty","cursor/_cursor "..pname(GAMESTATE:GetMasterPlayerNumber())))..{
+	Def.ActorFrame{
 		Name="Cursor";
-		InitCommand=cmd(horizalign,left;xy,SCREEN_CENTER_X-612/2,SCREEN_BOTTOM-85);
-		--[[CodeMessageCommand=function(self)
-			
-		end;]]
+		InitCommand=cmd(xy,SCREEN_CENTER_X-612/2,SCREEN_BOTTOM-85);
+		
+		Def.Sprite{
+			Texture=THEME:GetPathG("_difficulty","cursor/_cursor "..pname(GAMESTATE:GetMasterPlayerNumber()));
+			InitCommand=cmd(horizalign,left;);
+			OnCommand=function(self)
+				(cmd(cropleft,1;sleep,.5))(self);
+				if GAMESTATE:GetNumSidesJoined() > 1 then
+					self:sleep(.25):linear(.25):cropleft(.5);
+				else
+					self:linear(.5):cropleft(0);
+				end;
+			end;
+			--[[CodeMessageCommand=function(self)
+				
+			end;]]
+		};
+		--You're probably wondering why on earth there is two, this gets loaded if there are two players present
+		Def.Sprite{
+			Condition=GAMESTATE:GetNumSidesJoined() > 1;
+			Texture=THEME:GetPathG("_difficulty","cursor/_cursor "..pname(getOppositePlayer(GAMESTATE:GetMasterPlayerNumber())));
+			InitCommand=cmd(horizalign,left;);
+			OnCommand=function(self)
+				if GAMESTATE:GetNumSidesJoined() > 1 then
+					self:cropright(1):sleep(.75):linear(.25):cropright(.5);
+				else
+					self:cropleft(1):sleep(.5):linear(.5):cropleft(0);
+				end;
+			end;
+		};
+	};
+	
+	LoadActor(THEME:GetPathG("_difficulty","cursor/_OK P1"))..{
+		InitCommand=cmd(player,PLAYER_1;draworder,99;x,SCREEN_CENTER_X-226;y,SCREEN_CENTER_Y+84;diffusealpha,0);
+		OnCommand=cmd();
+		OffCommand=cmd(addy,68;diffusealpha,1;cropbottom,1;linear,0.083;addy,-68;cropbottom,0;decelerate,0.083;addy,-20;accelerate,0.083;addy,20;sleep,1;linear,0.1;cropright,1);
+	};
+	LoadActor(THEME:GetPathG("_difficulty","cursor/_OK P2"))..{
+		InitCommand=cmd(player,PLAYER_2;draworder,99;x,152;x,SCREEN_CENTER_X-76;y,SCREEN_CENTER_Y+84;diffusealpha,0);
+		OnCommand=cmd();
+		OffCommand=cmd(addy,68;diffusealpha,1;cropbottom,1;linear,0.083;addy,-68;cropbottom,0;decelerate,0.083;addy,-20;accelerate,0.083;addy,20;sleep,1;linear,0.1;cropright,1);
 	};
 	
 	LoadActor("bottom")..{
 		InitCommand=cmd(xy,SCREEN_CENTER_X,SCREEN_BOTTOM-85);
+		OnCommand=cmd(cropleft,.5;cropright,.5;linear,1;cropleft,0;cropright,0);
 	};
 	
 	Def.ActorFrame {
@@ -128,6 +173,15 @@ chr = Def.ActorFrame{
 			OffCommand=cmd(horizalign,right;sleep,1;sleep,0.236;linear,0.341;cropright,1;addx,240);
 		};
 	};
+	
+	LoadActor("../help")..{
+		InitCommand=cmd(x,SCREEN_CENTER_X-165;y,SCREEN_BOTTOM-33.5;);
+		OnCommand=cmd(draworder,199;shadowlength,0;diffuseblink;linear,0.5);
+	};
+	
+	LoadActor(THEME:GetPathG("ScreenWithMenuElements","header"));
+	--LoadFallbackB()
+
 }
 for i = 1,numChoices do
 	chr[#chr+1] = Def.ActorFrame{
@@ -147,18 +201,21 @@ for i = 1,numChoices do
 
 		LoadActor(ChoiceNames[i])..{
 			--InitCommand=cmd(addx,50);
+			OnCommand=cmd(cropright,1;sleep,0.264;sleep,0.132;cropright,0.936;cropbottom,1;linear,0.264;cropbottom,0;cropright,0.936;linear,0.396;cropright,0);
 		};
 		--Title
 		Def.BitmapText{
 			Font="_arial black 28px";
 			Text=string.upper(ChoiceNames[i]);
-			InitCommand=cmd(maxwidth,180;horizalign,left;xy,-38,-109;diffuse,color("#41402FFF");zoom,.75);
+			InitCommand=cmd(maxwidth,180;horizalign,left;xy,-38,-109;diffuse,color("#41402FFF");zoom,.75;cropright,1);
+			OnCommand=cmd(sleep,.75;linear,.25;cropright,0);
 		};
 		--Description, yes I know it's dumb
 		Def.BitmapText{
 			Font="ScreenSelectPlayMode";
 			Text=THEME:GetString("ScreenSelectPlayMode",ChoiceNames[i]);
 			InitCommand=cmd(xy,155+155,40;wrapwidthpixels,220);
+			OnCommand=cmd(diffusealpha,0;sleep,.75;linear,.25;diffusealpha,1);
 		};
 		--[[LoadFont("_arial black 28px")..{
 			Text="STANDARD";
@@ -180,6 +237,23 @@ chr[#chr+1] = LoadActor("Challenge")..{
 	ShowCommand=cmd(stoptweening;rotationy,90;sleep,.3;decelerate,.3;rotationy,0)
 };
 
+chr[#chr+1] = Def.ActorFrame{
+	InitCommand=cmd(y,SCREEN_TOP+58;draworder,100);
+	LoadActor("explanation")..{
+		InitCommand=cmd(x,SCREEN_LEFT+136);
+		OnCommand=cmd(draworder,99;diffusealpha,0;sleep,0.264;diffusealpha,1);
+	};
+	Def.Quad{
+		InitCommand=cmd(x,SCREEN_LEFT+339;setsize,230,24;diffuse,color("#8cbd00"));
+		OnCommand=cmd(addx,-204;sleep,0.264;sleep,0.198;linear,0.198;addx,204);
+		OffCommand=cmd(sleep,0.66;linear,0.198;addx,-204);
+	};
+	LoadActor("arrow")..{
+		InitCommand=cmd(x,SCREEN_LEFT+238);
+		OnCommand=cmd(addx,-204;diffusealpha,0;sleep,0.264;diffusealpha,1;sleep,0.198;linear,0.198;addx,204);
+		OffCommand=cmd(sleep,0.66;linear,0.198;addx,-204;sleep,0.198;diffusealpha,0);
+	};
+};
 --[[chr[#chr+1] = Def.Quad{
 		InitCommand=cmd(setsize,SCREEN_WIDTH/4,35;xy,SCREEN_CENTER_X,SCREEN_HEIGHT*.75;diffuse,color("0,0,0,.8");fadeleft,.5;faderight,.5);
 	};
@@ -202,7 +276,7 @@ chr[#chr+1] = LoadFont("Common Normal")..{
 --It's returning an ActorFrame with the 'chr' ActorFrame inside it
 --chr itself cannot be returned because inputs will stop working so just live with it
 return Def.ActorFrame{
-	LoadActor("back")..{ InitCommand=cmd(FullScreen); };
+	--LoadActor("back")..{ InitCommand=cmd(FullScreen); };
 
 	--Load the chr frame here
 	chr

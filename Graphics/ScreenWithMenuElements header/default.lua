@@ -14,7 +14,7 @@ elseif screenName == "ScreenOptionsServiceChild" then
 	headerTextImage = "optionsserv.png"
 elseif screenName == "ScreenSelectStyle" then
     headerTextImage = "style.png"
-elseif screenName == "ScreenSelectDifficulty" then
+elseif screenName == "ScreenSelectDifficulty" or screenName == "ScreenSelectPlayModeCustom" then
     headerTextImage = "diff.png"
 elseif screenName == "ScreenEvaluationNormal" then
 	headerTextImage = "eval.png"
