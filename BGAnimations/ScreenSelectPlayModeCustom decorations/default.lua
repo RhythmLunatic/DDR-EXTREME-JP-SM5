@@ -76,11 +76,19 @@ chr = Def.ActorFrame{
 				SOUND:PlayAnnouncer("select difficulty comment medium");
 				GAMESTATE:SetCurrentPlayMode("PlayMode_Regular");
 				SCREENMAN:GetTopScreen():SetNextScreenName(Branch.InstructionsNormal());
+			elseif ChoiceNames[selection] == "ECFA" then
+				SOUND:PlayAnnouncer("select difficulty comment hard");
+				setenv("sMode","ECFA");
+				SCREENMAN:GetTopScreen():SetNextScreenName(Branch.InstructionsNormal());
 			else
 				--GAMESTATE:ApplyGameCommand(THEME:GetMetric("ScreenSelectPlayModeCustom","Choice"..ChoiceNames[selection]));
 				lua.ReportScriptError("No parameters have been set for the screen "..ChoiceNames[selection]..", so I've returned you to the main menu to prevent crashing.","LUA_ERROR");
 				SCREENMAN:GetTopScreen():SetNextScreenName("ScreenTitleMenu");
 			end;
+			SL.Global.GameMode = ChoiceNames[selection]
+			SetGameModePreferences()
+			--I don't know why we reload metrics here but I'm guessing it caches function results
+			THEME:ReloadMetrics()
 			SOUND:PlayOnce(THEME:GetPathS("Common","start"),true);
 			SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_GoToNextScreen");
 		elseif param.Name == "Back" then
@@ -105,6 +113,7 @@ chr = Def.ActorFrame{
 	LoadActor("bar")..{
 		InitCommand=cmd(xy,SCREEN_CENTER_X,SCREEN_BOTTOM-85);
 		OnCommand=cmd(cropleft,.5;cropright,.5;linear,1;cropleft,0;cropright,0);
+		OffCommand=cmd(sleep,1;linear,1;cropleft,.5;cropright,.5;);
 		--OffCommand=cmd(cropbottom,0;cropleft,0;cropright,0;sleep,0.726;linear,0.726;cropleft,0.493;cropright,0.493;linear,0.264;cropbottom,1);
 
 	};
@@ -123,6 +132,21 @@ chr = Def.ActorFrame{
 					self:sleep(.25):linear(.25):cropleft(.5);
 				else
 					self:linear(.5):cropleft(0);
+				end;
+			end;
+			
+			OffCommand=function(self)
+				--Simple and annoying to manage code is still good code because you can understand it
+				--SCREENMAN:SystemMessage(selection);
+				self:sleep(1);
+				if selection == 1 then
+					self:linear(.5):cropleft(1);
+				elseif selection == 2 then
+					self:sleep(.5):linear(.5):cropleft(1);
+				elseif selection == 3 then
+					self:linear(.5):cropright(1);
+				elseif selection == 4 then
+					self:sleep(.5):linear(.5):cropright(1);
 				end;
 			end;
 			--[[CodeMessageCommand=function(self)
@@ -158,6 +182,7 @@ chr = Def.ActorFrame{
 	LoadActor("bottom")..{
 		InitCommand=cmd(xy,SCREEN_CENTER_X,SCREEN_BOTTOM-85);
 		OnCommand=cmd(cropleft,.5;cropright,.5;linear,1;cropleft,0;cropright,0);
+		OffCommand=cmd(sleep,1;linear,1;cropleft,.5;cropright,.5;);
 	};
 	
 	Def.ActorFrame {
@@ -202,6 +227,7 @@ for i = 1,numChoices do
 		LoadActor(ChoiceNames[i])..{
 			--InitCommand=cmd(addx,50);
 			OnCommand=cmd(cropright,1;sleep,0.264;sleep,0.132;cropright,0.936;cropbottom,1;linear,0.264;cropbottom,0;cropright,0.936;linear,0.396;cropright,0);
+			OffCommand=cmd(sleep,1;sleep,0.233;linear,0.333;cropright,0.936;sleep,0.016;linear,0.267;cropbottom,1);
 		};
 		--Title
 		Def.BitmapText{
@@ -209,13 +235,15 @@ for i = 1,numChoices do
 			Text=string.upper(ChoiceNames[i]);
 			InitCommand=cmd(maxwidth,180;horizalign,left;xy,-38,-109;diffuse,color("#41402FFF");zoom,.75;cropright,1);
 			OnCommand=cmd(sleep,.75;linear,.25;cropright,0);
+			OffCommand=cmd(sleep,1.25;linear,.25;cropright,1);
 		};
 		--Description, yes I know it's dumb
 		Def.BitmapText{
 			Font="ScreenSelectPlayMode";
 			Text=THEME:GetString("ScreenSelectPlayMode",ChoiceNames[i]);
 			InitCommand=cmd(xy,155+155,40;wrapwidthpixels,220);
-			OnCommand=cmd(diffusealpha,0;sleep,.75;linear,.25;diffusealpha,1);
+			OnCommand=cmd(diffusealpha,0;sleep,1;linear,.25;diffusealpha,1);
+			OffCommand=cmd(sleep,1;linear,.25;diffusealpha,0);
 		};
 		--[[LoadFont("_arial black 28px")..{
 			Text="STANDARD";

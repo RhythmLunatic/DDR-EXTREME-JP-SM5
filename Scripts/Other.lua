@@ -231,3 +231,16 @@ end;
 function gradeToNumber(grade)
 	return Grade:Reverse()[grade]
 end;
+
+function IsW1AllowedHere()
+	if PREFSMAN:GetPreference("AllowW1") == "AllowW1_Everywhere" then
+		return true;
+	elseif PREFSMAN:GetPreference("AllowW1") == "AllowW1_CoursesOnly" then
+		return (GAMESTATE:GetCurrentPlayMode() == 'PlayMode_Nonstop' or GAMESTATE:GetCurrentPlayMode() == "PlayMode_Oni" or GAMESTATE:GetCurrentPlayMode() == "PlayMode_Endless")
+	end;
+	return false;
+end;
+
+function EvalW1Offset()
+	return IsW1AllowedHere() and 25 or 0
+end;
