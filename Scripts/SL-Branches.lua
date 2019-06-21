@@ -71,9 +71,9 @@ Branch.AfterEvaluationStage = function()
 	end
 end
 
-Branch.AfterSelectPlayMode = function()
+--[[Branch.AfterSelectPlayMode = function()
 	return SelectMusicOrCourse()
-end
+end]]
 
 --[[
 Branch.AfterGameplay = function()

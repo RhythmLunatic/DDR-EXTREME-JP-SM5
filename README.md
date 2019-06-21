@@ -1,8 +1,10 @@
 
-# DDR Extreme Plus Ultra
+# Simply Extreme
 I forced Simply Love shit into DDR Extreme
 
 Original Extreme is SM5 port of TakuyaMAXX and beware's DDR EXTREME 3.9 Theme by Inorizushi	
+
+Simply Love is from here https://github.com/dguzek/Simply-Love-SM5
 
 Graphics:
 ============
@@ -12,7 +14,8 @@ Coding:
 ============
  - SM3.9: TakuyaMAXX, beware
  - SM5: Inorizushi, reiaya, FlameyBoy
- - Plus Ultra by yours truly.
+ - Simply Love: dguzek
+ - Simply Extreme by yours truly.
 
 Copyright
 ============

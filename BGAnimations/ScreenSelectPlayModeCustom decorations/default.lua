@@ -70,7 +70,8 @@ chr = Def.ActorFrame{
 			elseif ChoiceNames[selection] == "Casual" then
 				
 				GAMESTATE:SetCurrentPlayMode("PlayMode_Regular");
-				SCREENMAN:GetTopScreen():SetNextScreenName(Branch.InstructionsNormal());
+				--SCREENMAN:GetTopScreen():SetNextScreenName(Branch.InstructionsNormal());
+				SCREENMAN:GetTopScreen():SetNextScreenName("ScreenSelectMusicCasual");
 			
 			elseif ChoiceNames[selection] == "Competitive" then
 				SOUND:PlayAnnouncer("select difficulty comment medium");
