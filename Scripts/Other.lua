@@ -197,13 +197,23 @@ function GetCharAnimPath(sPath) return "/Characters/"..sPath end
 
 
 local gradeNames = {
-    "AAA",
-    "AA",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
+    "••••", --The font mapped the chraracter incorrectly, these show up as stars
+    "•••",
+    "••",
+    "•",
+    "S+",
+    "S",
+    "S-",
+	"A+",
+	"A",
+	"A-",
+	"B+",
+	"B",
+	"B-",
+	"C+",
+	"C",
+	"C-",
+	"D",
     "INVALID!"
 };
 

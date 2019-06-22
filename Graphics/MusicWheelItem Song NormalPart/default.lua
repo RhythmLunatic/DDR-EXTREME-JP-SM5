@@ -58,7 +58,7 @@ return Def.ActorFrame{
         Font="_shared1";
         Name = "Difficulty_Beginner";
 		--Text="AAA";
-        InitCommand=cmd(horizalign,1;uppercase,true;x,110;maxwidth,40);
+        InitCommand=cmd(diffuse,Color("HoloBlue");horizalign,1;uppercase,true;x,110;maxwidth,40);
 		CurrentStepsP1ChangedMessageCommand=function(self) ChangeGrade(self) end;
 		CurrentSongChangedMessageCommand=function(self) ChangeGrade(self) end;
 		SetCommand=function(self,param)

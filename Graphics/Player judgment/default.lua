@@ -192,19 +192,6 @@ local t = Def.ActorFrame {
 			fTapNoteOffset = param.TapNoteOffset; 
 		end
 		
-		if showBias then
-			---XXX: don't hardcode this
-			if param.TapNoteScore ~= 'TapNoteScore_W1' and
-				param.TapNoteScore ~= 'TapNoteScore_Miss' then
-				local late = fTapNoteOffset and (fTapNoteOffset > 0);
-				c.Bias:visible(true);
-				c.Bias:setstate( late and 1 or 0 );
-				BiasCmd(c.Bias);
-			else
-				c.Bias:visible(false);
-			end
-		end
-		
 		if param.TapNoteScore == 'TapNoteScore_Miss' then
 			fTapNoteOffset = 1;
 			bUseNegative = true;
@@ -221,6 +208,19 @@ local t = Def.ActorFrame {
 
 		--c.Judgment:playcommand("Reset");
 		self:playcommand("Reset");
+		
+		if showBias then
+			---XXX: don't hardcode this
+			if param.TapNoteScore ~= 'TapNoteScore_W1' and
+				param.TapNoteScore ~= 'TapNoteScore_Miss' then
+				local late = fTapNoteOffset and (fTapNoteOffset > 0);
+				c.Bias:visible(true);
+				c.Bias:setstate( late and 1 or 0 );
+				BiasCmd(c.Bias);
+			else
+				c.Bias:visible(false);
+			end
+		end
 
 		c.Judgment:visible( true );
 		c.Judgment:setstate( iFrame );

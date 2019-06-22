@@ -2,6 +2,10 @@ local pn, controller = ...;
 local tabCount = 4
 local paneState = 0;
 
+local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
+local PercentDP = stats:GetPercentDancePoints()
+local percent = FormatPercentScore(PercentDP)
+
 local t = Def.ActorFrame{
 
 	--Input handler
@@ -31,6 +35,7 @@ local t = Def.ActorFrame{
 			end;
 			
 			self:GetChild("QRCodePane"):visible(paneState==1);
+			self:GetChild("PercentPane"):visible(paneState==2);
 		end;
 	end;
 	
@@ -44,9 +49,9 @@ local t = Def.ActorFrame{
 			SetCommand=function(self)
 				self:Load("RollingNumbersMaxCombo")
 				if GAMESTATE:GetSmallestNumStagesLeftForAnyHumanPlayer() <= 1 then
-					self:targetnumber(STATSMAN:GetFinalEvalStageStats():GetPlayerStageStats(PLAYER_1):MaxCombo());
+					self:targetnumber(STATSMAN:GetFinalEvalStageStats():GetPlayerStageStats(pn):MaxCombo());
 				else
-					self:targetnumber(STATSMAN:GetCurStageStats():GetPlayerStageStats(PLAYER_1):MaxCombo());
+					self:targetnumber(stats:MaxCombo());
 				end;
 			end;
 		};
@@ -60,6 +65,18 @@ local t = Def.ActorFrame{
 		InitCommand=cmd(visible,false);
 		--Do not attempt to modify the positioning here because it doesn't work
 		LoadActor("qrcode",pn);
+	};
+	
+	Def.ActorFrame{
+		Name="PercentPane";
+		InitCommand=cmd(visible,false;x,SCREEN_CENTER_X-249;y,SCREEN_CENTER_Y;);
+		LoadFont("Common Normal")..{
+			Text="Your score: "..percent
+		};
+		LoadFont("Common Normal")..{
+			InitCommand=cmd(y,20);
+			Text="Tier "..stats:GetGrade();
+		};
 	};
 };
 return t;
