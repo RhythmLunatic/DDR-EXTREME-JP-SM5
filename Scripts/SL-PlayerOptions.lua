@@ -57,6 +57,11 @@ end
 -- It's not necessary to define each possible key for each OptionRow.  Anything you don't specifiy
 -- will use fallback values in OptionRowDefault (defined later, below).
 
+
+--For ScreenFilter
+local choiceToAlpha = {0, 3, 6, 9}
+local alphaToChoice = {[0]=1, [3]=2, [6]=3, [9]=4}
+
 local Overrides = {
 
 	-------------------------------------------------------------------------
@@ -145,23 +150,63 @@ local Overrides = {
 		end
 	},
 	-------------------------------------------------------------------------
-	JudgmentGraphic = {
-		LayoutType = "ShowOneInRow",
-		ExportOnChange = true,
-		Choices = function() return map(StripSpriteHints, GetJudgmentGraphics(SL.Global.GameMode)) end,
-		Values = function() return GetJudgmentGraphics(SL.Global.GameMode) end,
-		SaveSelections = function(self, list, pn)
-			local mods = SL[ToEnumShortString(pn)].ActiveModifiers
-			for i, val in ipairs(self.Values) do
-				if list[i] then mods.JudgmentGraphic = val; break end
+	ScreenFilter = {
+		Choices = function() return { THEME:GetString('OptionNames','Off'),
+			THEME:GetString('OptionTitles', 'FilterDark'),
+			THEME:GetString('OptionTitles', 'FilterDarker'),
+			THEME:GetString('OptionTitles', 'FilterDarkest'),
+		 } end,
+		LoadSelections = function(self, list, pn)
+			local pName = ToEnumShortString(pn)
+			local filterValue = SL[pName].ActiveModifiers.ScreenFilter
+
+			if filterValue ~= nil then
+				local val = alphaToChoice[filterValue] or 1
+				list[val] = true
+			else
+				SL[pName].ActiveModifiers.ScreenFilter = 0
+				list[1] = true
 			end
-			-- Broadcast a message that ./Graphics/OptionRow Frame.lua will be listening for so it can change the Judgment preview
-			MESSAGEMAN:Broadcast("JudgmentGraphicChanged", {Player=pn, JudgmentGraphic=StripSpriteHints(mods.JudgmentGraphic)})
+		end,
+		SaveSelections = function(self, list, pn)
+			--local pName = ToEnumShortString(pn)
+			local found = false
+			for i=1,#list do
+				if not found then
+					if list[i] == true then
+						SL[ToEnumShortString(pn)].ActiveModifiers.ScreenFilter = choiceToAlpha[i]
+						found = true
+					end
+				end
+			end
 		end
 	},
-	-------------------------------------------------------------------------
-	BackgroundFilter = {
-		Values = function() return { 'Off','Dark','Darker','Darkest' } end,
+	DetailedPrecision = {
+		Name = "UserPrefDetailedPrecision";
+		LayoutType = "ShowAllInRow";
+		SelectType = "SelectOne";
+		OneChoiceForAllPlayers = false;
+		ExportOnChange = true;
+		Choices = function() return {"ON", "PROTIMING", "OFF"} end;
+		LoadSelections = function(self, list, pn)
+			local opt = SL[ToEnumShortString(pn)].ActiveModifiers.DetailedPrecision
+			if opt == "EarlyLate" then
+				list[1] = true
+			elseif opt == "ProTiming" then
+				list[2] = true
+			else
+				list[3] = true
+			end;
+		end;
+		SaveSelections = function(self, list, pn)
+			if list[1] then
+				SL[ToEnumShortString(pn)].ActiveModifiers.DetailedPrecision = "EarlyLate";
+			elseif list[2] then
+				SL[ToEnumShortString(pn)].ActiveModifiers.DetailedPrecision = "ProTiming";
+			else
+				SL[ToEnumShortString(pn)].ActiveModifiers.DetailedPrecision = false;
+			end;
+		end;
 	},
 	-------------------------------------------------------------------------
 	Mini = {

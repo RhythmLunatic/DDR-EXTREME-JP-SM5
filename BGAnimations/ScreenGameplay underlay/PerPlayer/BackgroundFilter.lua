@@ -2,8 +2,8 @@ local player = ...
 local pn = ToEnumShortString(player)
 local mods = SL[pn].ActiveModifiers
 
--- if no BackgroundFilter is necessary, it's safe to bail now
-if mods.BackgroundFilter == "Off" then return end
+-- if no ScreenFilter is necessary, it's safe to bail now
+if mods.ScreenFilter == "Off" then return end
 
 local FilterAlpha = {
 	Dark = 0.5,
@@ -15,7 +15,7 @@ return Def.Quad{
 	InitCommand=function(self)
 		self:xy(GetNotefieldX(player), _screen.cy )
 			:diffuse(Color.Black)
-			:diffusealpha( FilterAlpha[mods.BackgroundFilter] or 0 )
+			:diffusealpha( FilterAlpha[mods.ScreenFilter] or 0 )
 			:zoomto( GetNotefieldWidth(player), _screen.h )
 	end,
 	OffCommand=function(self) self:queuecommand("ComboFlash") end,

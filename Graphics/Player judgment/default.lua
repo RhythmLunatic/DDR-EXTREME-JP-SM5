@@ -58,11 +58,11 @@ assert(ProtimingWidth,"oh no");
 		return 
 	end
 end;]]
-local bShowProtiming = (ActiveModifiers[pname(player)]["DetailedPrecision"] == "ProTiming");
+local bShowProtiming = (SL[pname(player)].ActiveModifiers.DetailedPrecision == "ProTiming");
 --assert(bShowProtiming ~= nil, "What the fuck???")
 
 
-local showBias = (ActiveModifiers[pname(player)]["DetailedPrecision"] == "EarlyLate");
+local showBias = (SL[pname(player)].ActiveModifiers.DetailedPrecision == "EarlyLate");
 
 local toLoad = (SL.Global.GameMode == "ECFA") and "ECFA" or "Judgment"
 local t = Def.ActorFrame {

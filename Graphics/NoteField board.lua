@@ -41,7 +41,7 @@ local args= {
 			--SCREENMAN:SystemMessage(ActiveModifiers[pname(param.PlayerNumber)]["ScreenFilter"]);
 			local pn= param.PlayerNumber
 			local style= GAMESTATE:GetCurrentStyle(pn)
-			local alf= ActiveModifiers[pname(param.PlayerNumber)]["ScreenFilter"]
+			local alf= SL[pname(pn)].ActiveModifiers.ScreenFilter
 			local width= style:GetWidth(pn) + 32
 			self:setsize(width, _screen.h*4096):diffusealpha(alf/10):hibernate(0)
 		end,

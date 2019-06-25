@@ -108,7 +108,7 @@ for player in ivalues(Players) do
 	t[#t+1] = LoadActor("./PerPlayer/StepStatistics/default.lua", player)
 	-- actual underlays
 	--t[#t+1] = LoadActor("./PerPlayer/Danger.lua", player)
-	--t[#t+1] = LoadActor("./PerPlayer/BackgroundFilter.lua", player)
+	--t[#t+1] = LoadActor("./PerPlayer/ScreenFilter.lua", player)
 	t[#t+1] = LoadActor("./PerPlayer/nice.lua", player)
 end
 

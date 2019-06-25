@@ -1,6 +1,6 @@
 return Def.ActorFrame{
 	InitCommand=function(self)
-		Setup();
+		InitializeSimplyLove();
 	end;
 	LoadActor("warning")..{
 		InitCommand=cmd(Center);
