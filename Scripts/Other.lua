@@ -74,6 +74,17 @@ function Actor:scale_or_crop_background()
 	end
 end
 
+function Actor:Cover()
+	self:scaletocover(0,0,SCREEN_RIGHT,SCREEN_BOTTOM);
+end;
+
+--Kyz scale_to_fit
+function Actor:scaletofit2(width,height)
+	local xscale= width / self:GetWidth()
+	local yscale= height / self:GetHeight()
+	self:zoom(math.min(xscale, yscale))
+end;
+
 -- summary evaluation banner handling (for 1-5 stages)
 -- ganked from my ddr 5th mix port
 local summaryBannerX = {
