@@ -12,6 +12,7 @@ t[#t+1] = Def.ActorFrame{
   		Name="StatsText";
 		Text="MORE STATS";
 		InitCommand=cmd(xy,SCREEN_CENTER_X-170,SCREEN_BOTTOM-75;zoom,.8);
+		OffCommand=cmd(accelerate,.25;addy,100);
 		--InitCommamd=cmd(x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+104;diffuse,Color("White");draworder,100;visible,true;zoom,5);
 	};
 	Def.Sprite{
@@ -23,6 +24,7 @@ t[#t+1] = Def.ActorFrame{
 			self:x(st:GetX() - st:GetWidth()/2);
 			self:horizalign(left);
 		end;
+		OffCommand=cmd(accelerate,.25;addy,100);
 	};
 	Def.Sprite{
 		Texture=THEME:GetPathF("_game chars","16px 4x1.png");
@@ -32,6 +34,7 @@ t[#t+1] = Def.ActorFrame{
 			self:x(st:GetX() + st:GetWidth()/2);
 			self:horizalign(right);
 		end;
+		OffCommand=cmd(accelerate,.25;addy,100);
 	};
 };
 

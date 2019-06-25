@@ -1,4 +1,8 @@
 return Def.ActorFrame{
+	LoadActor(THEME:GetPathS("","_swoosh"))..{
+		OnCommand=cmd(play);
+		OffCommand=cmd(play);
+	};
 	LoadActor("../_moveon")..{
 		InitCommand=cmd(CenterX;y,SCREEN_CENTER_Y-10);
 	};
