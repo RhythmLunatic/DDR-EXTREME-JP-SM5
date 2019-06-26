@@ -425,7 +425,7 @@ if SL[pn].ActiveModifiers.DataVisualizations == "Target Score Graph" then
 			},
 
 			-- pretty explody thingies for grade changes
-			LoadActor(THEME:GetPathG("","_VisualStyles/"..ThemePrefs.Get("VisualTheme").."/GameplayIn splode"))..{
+			--[[LoadActor(THEME:GetPathG("","_VisualStyles/"..ThemePrefs.Get("VisualTheme").."/GameplayIn splode"))..{
 				InitCommand=cmd(diffusealpha,0),
 				GradeChangedCommand=cmd(y, getYFromGradeEnum(currentGrade); diffuse, GetCurrentColor(); rotationz,10; diffusealpha,0; zoom,0; diffusealpha,0.9; linear,0.6; rotationz,0; zoom,0.5; diffusealpha,0),
 			},
@@ -436,7 +436,7 @@ if SL[pn].ActiveModifiers.DataVisualizations == "Target Score Graph" then
 			LoadActor(THEME:GetPathG("","_VisualStyles/"..ThemePrefs.Get("VisualTheme").."/GameplayIn minisplode"))..{
 				InitCommand=cmd(diffusealpha,0),
 				GradeChangedCommand=cmd(y, getYFromGradeEnum(currentGrade); diffuse, GetCurrentColor(); rotationz,10; diffusealpha,0; zoom,0; diffusealpha,1; decelerate,0.8; rotationz,0; zoom,0.4; diffusealpha,0),
-			},
+			},]]
 
 			-- white graph border
 			Border(graph.w+4, graph.h+4, 2)..{
@@ -449,21 +449,21 @@ if SL[pn].ActiveModifiers.DataVisualizations == "Target Score Graph" then
 
 		-- text labels for the bars
 		player_af[#player_af+1] = Def.ActorFrame{
-			LoadFont("_miso")..{
+			LoadFont("_sharedx")..{
 				Text=THEME:GetString("TargetScoreGraph", "You"),
 				InitCommand=function(self)
 					self:xy( bar.offset + bar.spacing + (bar.w/2), 20 )
 				end,
 			},
 
-			LoadFont("_miso")..{
+			LoadFont("_sharedx")..{
 				Text=THEME:GetString("TargetScoreGraph", "Personal"),
 				InitCommand=function(self)
 					self:xy( bar.offset + (bar.spacing * 2) + (bar.w/2) + bar.w, 20 )
 				end,
 			},
 
-			LoadFont("_miso")..{
+			LoadFont("_sharedx")..{
 				Text=THEME:GetString("TargetScoreGraph", "Target"),
 				InitCommand=function(self)
 					self:xy( bar.offset + (bar.spacing * 3) + (bar.w/2) + bar.w * 2, 20 )
