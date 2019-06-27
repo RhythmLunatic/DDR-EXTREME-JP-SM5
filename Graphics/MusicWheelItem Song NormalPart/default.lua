@@ -1,10 +1,10 @@
-function clearLamp(self, param, player)
+function clearLamp(self)
     local song = self.ParamSong;
-    local steps = GAMESTATE:GetCurrentSteps(PLAYER_1)
+    local steps = GAMESTATE:GetCurrentSteps(self.Player)
     if song then
         if steps then
-            if PROFILEMAN:GetProfile(PLAYER_1):GetHighScoreListIfExists(song,steps) then
-                local pgrade = PROFILEMAN:GetProfile(PLAYER_1):GetHighScoreList(song,steps):GetHighScores()[1]
+            if PROFILEMAN:GetProfile(self.Player):GetHighScoreListIfExists(song,steps) then
+                local pgrade = PROFILEMAN:GetProfile(self.Player):GetHighScoreList(song,steps):GetHighScores()[1]
                 if pgrade then
                     --SCREENMAN:SystemMessage("Has grade");
                     --self:Load(THEME:GetPathG("MusicWheelItem Song", "NormalPart/clearlump_"..clearlamps[steps:GetDifficulty()]));
@@ -43,13 +43,38 @@ end;
 return Def.ActorFrame{
 	LoadActor("back")..{
 	};
+	
 	Def.Sprite{
+		Condition=GAMESTATE:IsSideJoined(PLAYER_1);
 		Texture=THEME:GetPathG("MusicWheelItem Song","NormalPart/clearlamp");
         InitCommand=cmd(x,-696/4;horizalign,left;faderight,1;--[[diffuse,Color("HoloBlue")]]);
+        OnCommand=function(self)
+        	if GAMESTATE:IsSideJoined(PLAYER_2) then
+        		self:cropbottom(.5);
+        	end;
+        end;
 		CurrentStepsP1ChangedMessageCommand=function(self) clearLamp(self) end;
 		CurrentSongChangedMessageCommand=function(self) clearLamp(self) end;
 		SetCommand=function(self,param)
 			self.ParamSong = param.Song
+			self.Player = PLAYER_1
+			clearLamp(self)
+		end;
+    };
+	Def.Sprite{
+		Condition=GAMESTATE:IsSideJoined(PLAYER_2);
+		Texture=THEME:GetPathG("MusicWheelItem Song","NormalPart/clearlamp");
+        InitCommand=cmd(x,-696/4;horizalign,left;faderight,1;--[[diffuse,Color("HoloBlue")]]);
+        OnCommand=function(self)
+        	if GAMESTATE:IsSideJoined(PLAYER_1) then
+        		self:croptop(.5);
+        	end;
+        end;
+		CurrentStepsP1ChangedMessageCommand=function(self) clearLamp(self) end;
+		CurrentSongChangedMessageCommand=function(self) clearLamp(self) end;
+		SetCommand=function(self,param)
+			self.ParamSong = param.Song
+			self.Player = PLAYER_2
 			clearLamp(self)
 		end;
     };
