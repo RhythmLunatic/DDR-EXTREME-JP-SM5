@@ -26,10 +26,11 @@ function clearLamp(self)
     end;
 end;
 
-function ChangeGrade(self,param)
-	local steps = GAMESTATE:GetCurrentSteps(PLAYER_1)
-	if self.ParamSong and steps and PROFILEMAN:GetProfile(PLAYER_1):GetHighScoreListIfExists(self.ParamSong,steps) then
-		local pgrade = PROFILEMAN:GetProfile(PLAYER_1):GetHighScoreList(self.ParamSong,steps):GetHighScores()[1]
+function ChangeGrade(self,player)
+	assert(player,"supply a player, idiot");
+	local steps = GAMESTATE:GetCurrentSteps(player)
+	if self.ParamSong and steps and PROFILEMAN:GetProfile(player):GetHighScoreListIfExists(self.ParamSong,steps) then
+		local pgrade = PROFILEMAN:GetProfile(player):GetHighScoreList(self.ParamSong,steps):GetHighScores()[1]
 		if pgrade then
 			self:visible(true):settext(getGradeLetter(Grade:Reverse()[pgrade:GetGrade()]));
 		else
@@ -80,15 +81,29 @@ return Def.ActorFrame{
     };
 	
 	Def.BitmapText{
+		Condition=GAMESTATE:IsSideJoined(PLAYER_1);
         Font="_shared1";
         Name = "Difficulty_Beginner";
 		--Text="AAA";
-        InitCommand=cmd(diffuse,Color("HoloBlue");horizalign,1;uppercase,true;x,110;maxwidth,40);
-		CurrentStepsP1ChangedMessageCommand=function(self) ChangeGrade(self) end;
-		CurrentSongChangedMessageCommand=function(self) ChangeGrade(self) end;
+        InitCommand=cmd(diffuse,PlayerColor(PLAYER_1);horizalign,1;uppercase,true;x,97;maxwidth,30);
+		CurrentStepsP1ChangedMessageCommand=function(self) ChangeGrade(self,PLAYER_1) end;
+		CurrentSongChangedMessageCommand=function(self) ChangeGrade(self,PLAYER_1) end;
 		SetCommand=function(self,param)
 			self.ParamSong = param.Song
-			ChangeGrade(self)
+			ChangeGrade(self,PLAYER_1)
+		end;
+	};
+	Def.BitmapText{
+		Condition=GAMESTATE:IsSideJoined(PLAYER_2);
+        Font="_shared1";
+        Name = "Difficulty_Beginner";
+		--Text="AAA";
+        InitCommand=cmd(diffuse,PlayerColor(PLAYER_2);horizalign,1;uppercase,true;x,130;maxwidth,30);
+		CurrentStepsP1ChangedMessageCommand=function(self) ChangeGrade(self,PLAYER_2) end;
+		CurrentSongChangedMessageCommand=function(self) ChangeGrade(self,PLAYER_2) end;
+		SetCommand=function(self,param)
+			self.ParamSong = param.Song
+			ChangeGrade(self,PLAYER_2)
 		end;
 	};
 

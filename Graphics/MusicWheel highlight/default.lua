@@ -17,7 +17,7 @@ local function GetScorePercent(profile,player)
 		if topscore then
 			score = string.format("%.2f%%", topscore:GetPercentDP()*100.0)
 		else
-			score = string.format("%.2f%%", 0)
+			score = "00.00%";--string.format("%.2f%%", 0)
 		end
 	end
 
@@ -48,6 +48,8 @@ local GetNameAndScore = function(profile)
 end
 
 t[#t+1] = Def.ActorFrame{
+
+  OnCommand=cmd(addx,350;sleep,0.9;decelerate,0.2;addx,-350);
   LoadActor("frame")..{
     InitCommand=function(self)
       if GAMESTATE:IsPlayerEnabled(PLAYER_1) ~= true then
@@ -57,14 +59,12 @@ t[#t+1] = Def.ActorFrame{
         self:cropbottom(0.27)
       end;
     end;
-    OnCommand=cmd(addx,350;sleep,0.9;decelerate,0.2;addx,-350);
   };
-  
   LoadFont("_numbers6")..{
   	--Text="57.30%";
 	Condition=GAMESTATE:IsSideJoined(PLAYER_1);
 	InitCommand=cmd(xy,140,-32;halign,1;zoom,.6;diffuse,PlayerColor(PLAYER_1););
-  	OnCommand=cmd(addx,380;sleep,0.366;sleep,0.6;decelerate,0.2;addx,-380;queuecommand,"Set");
+  	--OnCommand=cmd(addx,380;sleep,0.366;sleep,0.6;decelerate,0.2;addx,-380;queuecommand,"Set");
 	CurrentSongChangedMessageCommand=cmd(queuecommand,"Set"),
 	CurrentCourseChangedMessageCommand=cmd(queuecommand,"Set"),
 	CurrentStepsP1ChangedMessageCommand=cmd(queuecommand,"Set"),
@@ -78,10 +78,10 @@ t[#t+1] = Def.ActorFrame{
   };
   
   LoadFont("_numbers6")..{
-  	Text="57.30%";
+  	--Text="57.30%";
 	Condition=GAMESTATE:IsSideJoined(PLAYER_2);
 	InitCommand=cmd(xy,140,32;halign,1;zoom,.6;diffuse,PlayerColor(PLAYER_2););
-  	OnCommand=cmd(addx,380;sleep,0.366;sleep,0.6;decelerate,0.2;addx,-380;queuecommand,"Set");
+  	--OnCommand=cmd(addx,380;sleep,0.366;sleep,0.6;decelerate,0.2;addx,-380;queuecommand,"Set");
 	CurrentSongChangedMessageCommand=cmd(queuecommand,"Set"),
 	CurrentCourseChangedMessageCommand=cmd(queuecommand,"Set"),
 	CurrentStepsP1ChangedMessageCommand=cmd(queuecommand,"Set"),
