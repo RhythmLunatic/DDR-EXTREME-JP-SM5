@@ -4,7 +4,7 @@ local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
 local PercentDP = stats:GetPercentDancePoints()
 local percent = FormatPercentScore(PercentDP)
 -- Format the Percentage string, removing the % symbol
-percent = percent:gsub("%%", "")
+--percent = percent:gsub("%%", "")
 
 return Def.ActorFrame{
 	Name="PercentageContainer"..ToEnumShortString(pn),

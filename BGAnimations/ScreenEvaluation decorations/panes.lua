@@ -6,6 +6,8 @@ local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
 local PercentDP = stats:GetPercentDancePoints()
 local percent = FormatPercentScore(PercentDP)
 
+--Here we go again.
+local negativeOffset = (pn == PLAYER_1 and -1 or 1);
 local t = Def.ActorFrame{
 
 	--Input handler
@@ -28,10 +30,10 @@ local t = Def.ActorFrame{
 			end;
 			
 			self:GetChild("MaxComboPane"):visible(paneState==0);
-			SCREENMAN:GetTopScreen():GetChild("BonusFrameP1"):visible(paneState == 0);
+			SCREENMAN:GetTopScreen():GetChild("BonusFrame"..pname(pn)):visible(paneState == 0);
 			for i = 1,5 do
-				SCREENMAN:GetTopScreen():GetChild("BarPossible"..i.."P1"):visible(paneState == 0);
-				SCREENMAN:GetTopScreen():GetChild("BarActual"..i.."P1"):visible(paneState == 0);
+				SCREENMAN:GetTopScreen():GetChild("BarPossible"..i..pname(pn)):visible(paneState == 0);
+				SCREENMAN:GetTopScreen():GetChild("BarActual"..i..pname(pn)):visible(paneState == 0);
 			end;
 			
 			self:GetChild("QRCodePane"):visible(paneState==1);
@@ -43,8 +45,8 @@ local t = Def.ActorFrame{
 		Name="MaxComboPane";
 		Def.RollingNumbers{
 			Font="ScreenEvaluation Combo",
-			InitCommand=cmd(x,SCREEN_CENTER_X-249;y,SCREEN_CENTER_Y+104;diffuse,color("#FFFF00");playcommand,"Set";);
-			OnCommand=cmd(draworder,90;zoom,1.3;horizalign,left;diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
+			InitCommand=cmd(x,SCREEN_CENTER_X+249*negativeOffset;y,SCREEN_CENTER_Y+104;diffuse,color("#FFFF00");playcommand,"Set";);
+			OnCommand=cmd(draworder,90;zoom,1.3;horizalign,(pn == PLAYER_1 and left or right);diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
 			OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
 			SetCommand=function(self)
 				self:Load("RollingNumbersMaxCombo")
@@ -56,7 +58,7 @@ local t = Def.ActorFrame{
 			end;
 		};
 		LoadActor(THEME:GetPathG("","ScreenEvaluation ComboLabel"))..{
-			OnCommand=cmd(x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+104;draworder,90;diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
+			OnCommand=cmd(x,SCREEN_CENTER_X+276*negativeOffset;y,SCREEN_CENTER_Y+104;draworder,90;diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
 			OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
 		};
 	};
@@ -69,7 +71,7 @@ local t = Def.ActorFrame{
 	
 	Def.ActorFrame{
 		Name="PercentPane";
-		InitCommand=cmd(visible,false;x,SCREEN_CENTER_X-249;y,SCREEN_CENTER_Y;);
+		InitCommand=cmd(visible,false;x,SCREEN_CENTER_X+249*negativeOffset;y,SCREEN_CENTER_Y;);
 		LoadFont("Common Normal")..{
 			Text="Your score: "..percent
 		};

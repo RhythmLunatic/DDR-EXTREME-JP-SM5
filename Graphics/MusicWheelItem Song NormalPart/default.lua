@@ -27,7 +27,7 @@ function clearLamp(self)
 end;
 
 function ChangeGrade(self,player)
-	assert(player,"supply a player, idiot");
+	--assert(player,"supply a player, idiot");
 	local steps = GAMESTATE:GetCurrentSteps(player)
 	if self.ParamSong and steps and PROFILEMAN:GetProfile(player):GetHighScoreListIfExists(self.ParamSong,steps) then
 		local pgrade = PROFILEMAN:GetProfile(player):GetHighScoreList(self.ParamSong,steps):GetHighScores()[1]
