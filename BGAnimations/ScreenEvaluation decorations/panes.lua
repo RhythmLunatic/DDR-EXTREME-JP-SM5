@@ -6,6 +6,8 @@ local stats = STATSMAN:GetCurStageStats():GetPlayerStageStats(pn)
 local PercentDP = stats:GetPercentDancePoints()
 local percent = FormatPercentScore(PercentDP)
 
+local game = GAMESTATE:GetCurrentGame():GetName()
+
 --Here we go again.
 local negativeOffset = (pn == PLAYER_1 and -1 or 1);
 local t = Def.ActorFrame{
@@ -38,6 +40,7 @@ local t = Def.ActorFrame{
 			
 			self:GetChild("QRCodePane"):visible(paneState==1);
 			self:GetChild("PercentPane"):visible(paneState==2);
+			self:GetChild("ArrowPane"):visible(paneState==3);
 		end;
 	end;
 	
@@ -80,5 +83,22 @@ local t = Def.ActorFrame{
 			Text="Tier "..stats:GetGrade();
 		};
 	};
+	
+	Def.ActorFrame{
+		Name="ArrowPane",
+		InitCommand=function(self)
+			--[[local style = ToEnumShortString(GAMESTATE:GetCurrentStyle():GetStyleType())
+			if style == "OnePlayerTwoSides" then
+				--self:x(SCREEN_CENTER_X*negativeOffset);
+			else]]
+			self:x(SCREEN_CENTER_X+373*negativeOffset);
+
+			self:visible(false)
+		end,
+
+		--LoadActor("Pane2/Percentage.lua", pn),
+		--LoadActor("Pane2/JudgmentLabels.lua", pn),
+		LoadActor("Pane2/Arrows.lua", pn)
+	}
 };
 return t;

@@ -452,21 +452,21 @@ if SL[pn].ActiveModifiers.DataVisualizations == "Target Score Graph" then
 			LoadFont("_sharedx")..{
 				Text=THEME:GetString("TargetScoreGraph", "You"),
 				InitCommand=function(self)
-					self:xy( bar.offset + bar.spacing + (bar.w/2), 20 )
+					self:xy( bar.offset + bar.spacing + (bar.w/2), 10 ):zoom(.75);
 				end,
 			},
 
 			LoadFont("_sharedx")..{
 				Text=THEME:GetString("TargetScoreGraph", "Personal"),
 				InitCommand=function(self)
-					self:xy( bar.offset + (bar.spacing * 2) + (bar.w/2) + bar.w, 20 )
+					self:xy( bar.offset + (bar.spacing * 2) + (bar.w/2) + bar.w, 10 ):zoom(.75);
 				end,
 			},
 
 			LoadFont("_sharedx")..{
 				Text=THEME:GetString("TargetScoreGraph", "Target"),
 				InitCommand=function(self)
-					self:xy( bar.offset + (bar.spacing * 3) + (bar.w/2) + bar.w * 2, 20 )
+					self:xy( bar.offset + (bar.spacing * 3) + (bar.w/2) + bar.w * 2, 10 ):zoom(.75);
 				end,
 			},
 		}

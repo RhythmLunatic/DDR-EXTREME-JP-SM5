@@ -28,11 +28,13 @@ return Def.ActorFrame{
 			self:x( _screen.w/4 * (player==PLAYER_1 and 3 or 1) )
 		end
 
-		self:y(_screen.cy + 80)
+		self:y(_screen.cy + 50)
 	end,
 
 	LoadActor("./BackgroundAndBanner.lua", player),
 	LoadActor("./JudgmentLabels.lua", player),
 	LoadActor("./JudgmentNumbers.lua", player),
-	LoadActor("./DensityGraph.lua", player),
+	LoadActor("./DensityGraph.lua", player)..{
+		InitCommand=cmd(y,-50); --Dumb hack since it doesn't fit onscreen
+	},
 }

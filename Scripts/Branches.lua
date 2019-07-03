@@ -1,9 +1,21 @@
-Branch.StartGame = function()
+--[[Branch.StartGame = function()
 	if SONGMAN:GetNumSongs() == 0 and SONGMAN:GetNumAdditionalSongs() == 0 then
 		-- xxx: use titlemenu and titlejoin as needed
 		return "ScreenTitleMenu"
 	end
 
+	return PREFSMAN:GetPreference("ShowCaution") and "ScreenCaution" or "ScreenSelectStyle"
+end]]
+
+--[[AfterSelectProfile = function()
+	if ( THEME:GetMetric("Common","AutoSetStyle") == true ) then
+		-- use SelectStyle in online...
+		return IsNetConnected() and "ScreenSelectStyle" or "ScreenSelectPlayMode"
+	else
+		return "ScreenSelectStyle"
+	end
+end]]
+Branch.AfterSelectProfile = function()
 	return PREFSMAN:GetPreference("ShowCaution") and "ScreenCaution" or "ScreenSelectStyle"
 end
 

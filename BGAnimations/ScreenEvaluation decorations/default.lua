@@ -16,7 +16,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			Text="MORE STATS";
 			InitCommand=cmd(xy,SCREEN_CENTER_X+170*negativeOffset,SCREEN_BOTTOM-75;zoom,.8);
 			
-			--InitCommamd=cmd(x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+104;diffuse,Color("White");draworder,100;visible,true;zoom,5);
+			--InitCommand=cmd(x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+104;diffuse,Color("White");draworder,100;visible,true;zoom,5);
 		};
 		Def.Sprite{
 			--Bet you didn't know I could do this
@@ -39,8 +39,12 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			end;
 			
 		};
+		LoadActor("Graphs",pn)..{
+			InitCommand=cmd(x,SCREEN_RIGHT*.75);
+		};
 	};
 end;
+
 
 -- Score display.
 
@@ -75,6 +79,7 @@ if ShowStandardDecoration("DifficultyIcon") then
 end
 
 for pn in ivalues(PlayerNumber) do
+
 	local MetricsName = "MachineRecord" .. PlayerNumberToString(pn);
 	t[#t+1] = LoadActor( THEME:GetPathG(Var "LoadingScreen", "MachineRecord"), pn ) .. {
 		InitCommand=function(self)
@@ -83,9 +88,6 @@ for pn in ivalues(PlayerNumber) do
 			ActorUtil.LoadAllCommandsAndSetXY(self,Var "LoadingScreen");
 		end;
 	};
-end
-
-for pn in ivalues(PlayerNumber) do
 	local MetricsName = "PersonalRecord" .. PlayerNumberToString(pn);
 	t[#t+1] = LoadActor( THEME:GetPathG(Var "LoadingScreen", "PersonalRecord"), pn ) .. {
 		InitCommand=function(self)
