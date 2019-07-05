@@ -6,7 +6,7 @@ t[#t+1] = StandardDecorationFromFile("StageDisplay","StageDisplay");
 
 --Panes.
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
-	--Positioning is done inside the panes.lua...
+	--Positioning is done inside the panes.lua... (Argument 2 is which player controls the pane, since this was ported from my DDR2014 theme)
 	t[#t+1] = LoadActor("panes",pn, pn);
 	local negativeOffset = (pn == PLAYER_1 and -1 or 1);
 	t[#t+1] = Def.ActorFrame{
@@ -41,9 +41,6 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			
 		};
 	};
-	
-
-
 end;
 
 --Only load if one player is present. If there are two players then it will be loaded as a pane instead.
@@ -86,7 +83,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	};
 end;
 
--- difficulty display
+-- difficulty & mods display
 if ShowStandardDecoration("DifficultyIcon") then
 	if GAMESTATE:GetPlayMode() == 'PlayMode_Rave' then
 		-- in rave mode, we always have two players.
@@ -95,10 +92,29 @@ if ShowStandardDecoration("DifficultyIcon") then
 		for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			local diffIcon = LoadActor(THEME:GetPathG(Var "LoadingScreen", "DifficultyIcon"), pn)
 			t[#t+1] = StandardDecorationFromTable("DifficultyIcon" .. ToEnumShortString(pn), diffIcon);
+
+			t[#t+1] = LoadFont("ScreenGameplay player options")..{
+				Text=GAMESTATE:GetPlayerState(pn):GetPlayerOptionsString("ModsLevel_Current");
+				--Text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+				InitCommand=cmd(
+					draworder,100;
+					--Behold my legendary math skills
+					x,THEME:GetMetric('ScreenEvaluation','LargeBannerX')+(THEME:GetMetric('ScreenEvaluation','BannerWidth')/2-5)*(pn == PLAYER_1 and -1 or 1);
+					y,THEME:GetMetric('ScreenEvaluation','LargeBannerY')+10;
+					horizalign,(pn == PLAYER_1 and left or right);
+					diffuse,PlayerColor(pn);
+					--I honestly have no idea how it's calculating the maxwidth here since zoom kind of messes it up. This value just happens to work.
+					maxwidth,THEME:GetMetric('ScreenEvaluation','BannerWidth')*.7;
+					zoom,.6;
+				);
+				OnCommand=THEME:GetMetric("ScreenEvaluation","LargeBannerFrameOnCommand");
+				OffCommand=THEME:GetMetric("ScreenEvaluation","LargeBannerFrameOffCommand");
+			};
 		end
 	end
 end
 
+-- Machine Record, personal record...
 for pn in ivalues(PlayerNumber) do
 
 	local MetricsName = "MachineRecord" .. PlayerNumberToString(pn);
@@ -119,8 +135,9 @@ for pn in ivalues(PlayerNumber) do
 	};
 end
 
+
 t[#t+1] = Def.ActorFrame {
-	Condition=GAMESTATE:HasEarnedExtraStage() and GAMESTATE:IsExtraStage() and not GAMESTATE:IsExtraStage2();
+	Condition=GAMESTATE:HasEarnedExtraStage()--[[ and GAMESTATE:IsExtraStage() and not GAMESTATE:IsExtraStage2()]];
 	InitCommand=cmd(draworder,105);
 	LoadActor( THEME:GetPathS("ScreenEvaluation","try Extra1" ) ) .. {
 		Condition=THEME:GetMetric( Var "LoadingScreen","Summary" ) == false;
