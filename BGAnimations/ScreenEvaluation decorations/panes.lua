@@ -33,14 +33,18 @@ local t = Def.ActorFrame{
 			
 			self:GetChild("MaxComboPane"):visible(paneState==0);
 			SCREENMAN:GetTopScreen():GetChild("BonusFrame"..pname(pn)):visible(paneState == 0);
+			SCREENMAN:GetTopScreen():GetChild("MachineRecord"..pname(pn)):visible(paneState == 0);
 			for i = 1,5 do
 				SCREENMAN:GetTopScreen():GetChild("BarPossible"..i..pname(pn)):visible(paneState == 0);
 				SCREENMAN:GetTopScreen():GetChild("BarActual"..i..pname(pn)):visible(paneState == 0);
 			end;
 			
 			self:GetChild("QRCodePane"):visible(paneState==1);
-			self:GetChild("PercentPane"):visible(paneState==2);
+			--self:GetChild("PercentPane"):visible(paneState==2);
+			self:GetChild("HighScorePane"):visible(paneState==2);
+			SCREENMAN:GetTopScreen():GetChild("PersonalRecord"..pname(pn)):visible(paneState==2);
 			self:GetChild("ArrowPane"):visible(paneState==3);
+			
 		end;
 	end;
 	
@@ -72,7 +76,7 @@ local t = Def.ActorFrame{
 		LoadActor("qrcode",pn);
 	};
 	
-	Def.ActorFrame{
+	--[[Def.ActorFrame{
 		Name="PercentPane";
 		InitCommand=cmd(visible,false;x,SCREEN_CENTER_X+249*negativeOffset;y,SCREEN_CENTER_Y;);
 		LoadFont("Common Normal")..{
@@ -82,6 +86,12 @@ local t = Def.ActorFrame{
 			InitCommand=cmd(y,20);
 			Text="Tier "..stats:GetGrade();
 		};
+	};]]
+	
+	--loadfile("HighScores.lua");
+	LoadActor("HighScores",pn)..{
+		Name='HighScorePane';
+		InitCommand=cmd(x,SCREEN_CENTER_X+210*negativeOffset);
 	};
 	
 	Def.ActorFrame{
@@ -98,7 +108,8 @@ local t = Def.ActorFrame{
 
 		--LoadActor("Pane2/Percentage.lua", pn),
 		--LoadActor("Pane2/JudgmentLabels.lua", pn),
-		LoadActor("Pane2/Arrows.lua", pn)
-	}
+		LoadActor("Arrows.lua", pn)
+	};
+	
 };
 return t;

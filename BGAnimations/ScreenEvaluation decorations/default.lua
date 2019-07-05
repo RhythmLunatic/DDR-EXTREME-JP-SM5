@@ -3,6 +3,7 @@ local t = LoadFallbackB();
 t[#t+1] = StandardDecorationFromFileOptional("StyleIcon","StyleIcon");
 t[#t+1] = StandardDecorationFromFile("StageDisplay","StageDisplay");
 
+
 --Panes.
 for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	--Positioning is done inside the panes.lua...
@@ -39,11 +40,31 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 			end;
 			
 		};
+	};
+	
+
+
+end;
+
+--Only load if one player is present. If there are two players then it will be loaded as a pane instead.
+if GAMESTATE:GetNumSidesJoined() == 1 then
+	local pn = GAMESTATE:GetMasterPlayerNumber()
+	local negativeOffset = (pn == PLAYER_1 and -1 or 1);
+	t[#t+1] = Def.ActorFrame{
+		OnCommand=cmd(diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
+		OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
 		LoadActor("Graphs",pn)..{
-			InitCommand=cmd(x,SCREEN_RIGHT*.75);
+			--It's minus because for P1 we want it on the P2 side and for P2 we want it on the P1 side.
+			--Meaning the side without anything currently using that space.
+			InitCommand=cmd(x,SCREEN_CENTER_X-SCREEN_WIDTH*.25*negativeOffset);
+		};
+		LoadActor("Pane4",pn)..{
+			--Why is the graph centered but this one isnt???????
+			InitCommand=cmd(x,SCREEN_CENTER_X-SCREEN_WIDTH*.25*negativeOffset-300/2);
 		};
 	};
 end;
+
 
 
 -- Score display.
