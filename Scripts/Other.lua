@@ -265,3 +265,54 @@ end;
 function EvalW1Offset()
 	return IsW1AllowedHere() and 25 or 0
 end;
+
+
+local gsCodes = {
+	-- steps
+	GroupSelect1 = {
+		default = "Up",
+		--dance = "Up",
+		pump = "UpLeft",
+	},
+	GroupSelect2 = {
+		default = "Down",
+		--dance = "Down",
+		pump = "UpRight",
+	},
+	GroupSelect3 = {
+		default = "MenuUp"
+	},
+	GroupSelect4 = {
+		default= "MenuDown"
+	},
+	OptionList = {
+		default = "Left,Right,Left,Right",
+		pump = "DownLeft,DownRight,DownLeft,DownRight,DownLeft,DownRight"
+	},
+	--Alternative for menu buttons instead of pads
+	OptionList2 = {
+		default = "MenuLeft,MenuRight,MenuLeft,MenuRight,MenuLeft,MenuRight"
+	},
+	Left = {
+		default = "Left",
+		pump = "DownLeft"
+	},
+	Right = {
+		default = "Right",
+		pump = "DownRight"
+	},
+	Start = {
+		default = "Start",
+		pump = "Center"
+	}
+};
+
+local function CurGameName()
+	return GAMESTATE:GetCurrentGame():GetName()
+end
+
+function MusicSelectMappings(codeName)
+	local gameName = string.lower(CurGameName())
+	local inputCode = gsCodes[codeName]
+	return inputCode[gameName] or inputCode["default"]
+end
