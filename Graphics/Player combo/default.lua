@@ -12,6 +12,8 @@ local LabelMinZoom = THEME:GetMetric("Combo", "LabelMinZoom");
 local LabelMaxZoom = THEME:GetMetric("Combo", "LabelMaxZoom");
 
 local t = Def.ActorFrame {
+	Condition=(not SL[ToEnumShortString(player)].ActiveModifiers.HideCombo);
+	
 	InitCommand=cmd(vertalign,bottom);
 	LoadFont( "Combo", "numbers" ) .. {
 		Name="Number";

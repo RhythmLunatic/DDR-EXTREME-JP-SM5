@@ -12,6 +12,7 @@ local game = GAMESTATE:GetCurrentGame():GetName()
 local negativeOffset = (pn == PLAYER_1 and -1 or 1);
 local t = Def.ActorFrame{
 
+	OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
 	--Input handler
 	CodeMessageCommand=function(self,params)
 		if params.PlayerNumber==controller then
@@ -54,7 +55,7 @@ local t = Def.ActorFrame{
 			Font="ScreenEvaluation Combo",
 			InitCommand=cmd(x,SCREEN_CENTER_X+249*negativeOffset;y,SCREEN_CENTER_Y+104;diffuse,color("#FFFF00");playcommand,"Set";);
 			OnCommand=cmd(draworder,90;zoom,1.3;horizalign,(pn == PLAYER_1 and left or right);diffusealpha,0;sleep,0.266;linear,0.416;diffusealpha,1);
-			OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
+			--OffCommand=cmd(sleep,0.066;sleep,0.333;linear,0.416;diffusealpha,0);
 			SetCommand=function(self)
 				self:Load("RollingNumbersMaxCombo")
 				if GAMESTATE:GetSmallestNumStagesLeftForAnyHumanPlayer() <= 1 then
@@ -91,7 +92,7 @@ local t = Def.ActorFrame{
 	--loadfile("HighScores.lua");
 	LoadActor("HighScores",pn)..{
 		Name='HighScorePane';
-		InitCommand=cmd(x,SCREEN_CENTER_X+210*negativeOffset);
+		InitCommand=cmd(x,SCREEN_CENTER_X+25+230*negativeOffset);
 	};
 	
 	Def.ActorFrame{
@@ -101,7 +102,7 @@ local t = Def.ActorFrame{
 			if style == "OnePlayerTwoSides" then
 				--self:x(SCREEN_CENTER_X*negativeOffset);
 			else]]
-			self:x(SCREEN_CENTER_X+373*negativeOffset);
+			self:x(SCREEN_CENTER_X-145+230*negativeOffset);
 
 			self:visible(false)
 		end,

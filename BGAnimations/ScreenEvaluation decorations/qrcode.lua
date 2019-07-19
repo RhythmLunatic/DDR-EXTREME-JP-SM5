@@ -80,15 +80,16 @@ if not GAMESTATE:IsCourseMode() then
 		end
 	}
 
+	local negativeOffset = player == PLAYER_1 and -1 or 1;
 	pane[#pane+1] = qrcode_amv( url, qrcode_size )..{
-		InitCommand=cmd(x,SCREEN_CENTER_X-297;y,SCREEN_CENTER_Y-50;align,0,0);
+		InitCommand=cmd(x,SCREEN_CENTER_X-qrcode_size/2+228*negativeOffset;y,SCREEN_CENTER_Y-50;align,0,0);
 	}
 
 	pane[#pane+1] = LoadActor("Percentage.lua", player)
 
 	pane[#pane+1] = LoadFont("Common Normal")..{
 		Text="GrooveStats QR",
-		InitCommand=function(self) self:xy(SCREEN_CENTER_X-297+qrcode_size/2, SCREEN_CENTER_Y+qrcode_size*.8) end
+		InitCommand=function(self) self:xy(SCREEN_CENTER_X+228*negativeOffset, SCREEN_CENTER_Y+qrcode_size*.8) end
 	}
 
 	pane[#pane+1] = LoadFont("Common Normal")..{

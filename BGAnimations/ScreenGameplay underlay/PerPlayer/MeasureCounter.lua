@@ -96,11 +96,11 @@ local af = Def.ActorFrame{
 	end
 }
 
-af[#af+1] = LoadFont("_wendy small")..{
+af[#af+1] = LoadFont("_sharedx")..{
 	InitCommand=function(self)
 		MeasureCounterBMT = self
 
-		self:zoom(0.35):shadowlength(1):horizalign(center)
+		self:zoom(0.5):shadowlength(1):horizalign(center)
 		self:xy( GetNotefieldX(player), _screen.cy )
 
 		if mods.MeasureCounterLeft then

@@ -1,3 +1,12 @@
+-- code for setting the PlayerOptions string (needed to counteract ITG mod charts)
+-- and the MeasureCounter has been abstracted out to a different file to keep this one simpler.
+local InitializeMeasureCounterAndModsLevel = LoadActor("./MeasureCounterAndModsLevel.lua")
+
+
+local SongNumberInCourse = 0
+InitializeMeasureCounterAndModsLevel(SongNumberInCourse)
+
+
 local travelDist = SCREEN_WIDTH*1.7;
 
 local LeftToRight = Def.ActorFrame{
@@ -18,6 +27,13 @@ return Def.ActorFrame{
 	Def.Quad{
 		InitCommand=cmd(Center;FullScreen;diffuse,color("0,0,0,1"));
 		OnCommand=cmd(linear,0.4;diffusealpha,0);
+		
+		CurrentSongChangedMessageCommand=function(self)
+			if GAMESTATE:IsCourseMode() then
+				InitializeMeasureCounterAndModsLevel(SongNumberInCourse)
+				SongNumberInCourse = SongNumberInCourse + 1
+			end
+		end
 	};
 
 	-- 6 left -> right
