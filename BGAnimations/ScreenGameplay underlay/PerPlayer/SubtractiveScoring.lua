@@ -5,6 +5,8 @@ local mods = SL[pn].ActiveModifiers
 -- don't allow SubtractiveScoring to appear in Casual gamemode via profile settings
 if SL.Global.GameMode == "Casual" then return end
 
+
+--TODO: This belongs in player judgment...
 if mods.SubtractiveScoring then
 
 	local style = ToEnumShortString(GAMESTATE:GetCurrentStyle():GetStyleType())
@@ -12,7 +14,7 @@ if mods.SubtractiveScoring then
 
 	-- grab the appropriate x position from ScreenGameplay's
 	-- metrics on Player positioning
-	local x_position = GetNotefieldX( player )
+	--local x_position = GetNotefieldX( player )
 
 	-- a flag to determine if we are using a GameMode that utilizes FA+ timing windows
 	local the_metrics = SL.Metrics[SL.Global.GameMode]
@@ -30,17 +32,17 @@ if mods.SubtractiveScoring then
 	local hns
 
 	return Def.BitmapText{
-		Font="_wendy small",
+		Font="Common Normal",
 		InitCommand=function(self)
 
 			self:diffuse(color("#ff55cc"))
-			:zoom(0.35):shadowlength(1):horizalign(center)
+			:zoom(1):shadowlength(1):horizalign(center)
 
 			-- mirror image of MeasureCounter.lua
 			local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
 			local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
 
-			self:xy( GetNotefieldX(player) + (width/NumColumns), _screen.cy )
+			self:xy( GetNotefieldX(player) - (width/NumColumns), _screen.cy )
 
 			-- Fix overlap issues for MeasureCounter in center
 			-- since in this case we don't need symmetry.

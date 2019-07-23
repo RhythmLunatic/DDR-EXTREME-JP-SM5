@@ -20,7 +20,7 @@ then return end
 local dance_points, percent
 local pss = STATSMAN:GetCurStageStats():GetPlayerStageStats(player)
 
-return LoadFont("_wendy monospace numbers")..{
+return LoadFont("Common Normal")..{
 	Text="0.00",
 
 	Name=pn.."Score",
