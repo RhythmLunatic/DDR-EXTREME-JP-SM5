@@ -36,13 +36,13 @@ if mods.SubtractiveScoring then
 		InitCommand=function(self)
 
 			self:diffuse(color("#ff55cc"))
-			:zoom(1):shadowlength(1):horizalign(center)
+			:zoom(.8):shadowlength(1):horizalign(center)
 
 			-- mirror image of MeasureCounter.lua
 			local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
 			local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
 
-			self:xy( GetNotefieldX(player) - (width/NumColumns), _screen.cy )
+			self:xy( GetNotefieldX(player) - (width/NumColumns), _screen.cy-5 )
 
 			-- Fix overlap issues for MeasureCounter in center
 			-- since in this case we don't need symmetry.
