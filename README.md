@@ -20,3 +20,5 @@ Coding:
 Copyright
 ============
 This is **in no way affiliated with Konami.** Any references made to the DanceDanceRevolution franchise is strictly for continuity purposes. 
+
+# If you need a feature added please file an issue. I don't play dance mode nor do I use Simply Love, I don't know what features it has.
